@@ -1,18 +1,19 @@
 import express, { Application, NextFunction, Request, Response } from 'express'
 import { UserRoutes } from './routes/user.routes'
-import {DbConnection} from './database'
+import { BookRoutes } from './routes/book.routes'
+import { DbConnection } from './database'
 
 const app: Application = express()
 const userRoutes = new UserRoutes().getRoutes()
+const booksRoutes = new BookRoutes().getRoutes()
 const dabase = new DbConnection()
-
 
 dabase.connect()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 app.use('/user', userRoutes)
-
+app.use('/books', booksRoutes)
 
 app.use(
 	(err: Error, request: Request, response: Response, next: NextFunction) => {
